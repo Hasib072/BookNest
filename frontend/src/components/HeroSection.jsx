@@ -3,18 +3,17 @@ import React, { useState, useEffect } from 'react';
 import backgroundImage from '../assets/booknestHero01.png'; // Primary Background Image
 import overlayImage from '../assets/booknestHero02.png'; // Overlay Image for Effects
 import './HeroSection.css'; // Import the CSS file
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
-import { FaLinkedin } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa"; // Import Search Icon
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 import { Link } from 'react-router-dom';
 import logo from '../assets/BookNestLogoW.png';
 
-
 const HeroSection = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // State for search input
 
   useEffect(() => {
     AOS.init({
@@ -23,14 +22,21 @@ const HeroSection = () => {
     });
   }, []);
 
+  // Handler for form submission
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // Placeholder for future search functionality
+    console.log('Search Query:', searchQuery);
+  };
+
   return (
     <div
       className="hero-container relative flex items-center justify-center bg-gray-100"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ 
-        height: '580px',
-        maxHeight: '580px' 
+        height: '540px',
+        maxHeight: '540px' 
       }} 
       data-aos="fade-in"
     >
@@ -50,42 +56,48 @@ const HeroSection = () => {
 
       {/* Content Wrapper */}
       <div className="relative z-10 flex flex-col md:flex-row items-center md:pl-[10%] w-full px-4">
-        {/* Hero Text */}
+        {/* Left Side: Logo and Text */}
         <div className="text-center md:text-left md:w-1/2">
-            <img
-                className="h-50 w-auto"
-                src={logo}
-                alt="BookNest Logo"
-              />
-          <h2 className="mt-4 text-xl md:text-2xl text-white drop-shadow-lg font-semibold">
+          {/* Logo */}
+          <img
+            className="h-50 w-auto"
+            src={logo}
+            alt="BookNest Logo"
+          />
+          
+          {/* Tagline */}
+          <h2 className="mt-4 text-xl md:text-2xl text-white drop-shadow-lg font-semibold font-noto">
             "Dive into a world of endless stories and imagination."
           </h2>
-        
           
-          {/* Call-to-Action Buttons */}
-          <div className='mt-8'>
-            <div className="inline mr-5">
-              <a
-                href="https://drive.google.com/file/d/1jnAoG139EZbv-depo5SgV7gcCMIk8zkN/view"
-                className="inline-block px-2 md:px-6 py-3 border-solid border-yellow-500 border-2 text-white font-semibold rounded-md shadow hover:bg-yellow-600/50 hover:text-white transition duration-300" 
-                target="_blank" 
-                rel="noopener noreferrer"
+          {/* Search Bar */}
+          <form className="mt-8 flex justify-center md:justify-start" onSubmit={handleSearch}>
+            <div className="relative w-full max-w-md">
+              {/* Search Input */}
+              <input
+                type="text"
+                placeholder="Search for books..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-yellow-100 rounded-md focus:outline-none focus:ring-1 focus:ring-yellow-100"
+                required
+              />
+              
+              {/* Search Icon */}
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-500" />
+              
+              {/* Search Button */}
+              <button
+                type="submit"
+                className="absolute right-0 top-0 h-full px-4 bg-yellow-500 text-white rounded-r-md hover:bg-yellow-600 transition-colors duration-300"
+                aria-label="Search"
               >
-                VIEW BROCHURE
-              </a>
+                Search
+              </button>
             </div>
-            <div className="inline">
-              <Link
-                to="/contact"
-                className="inline-block px-2 md:px-6 py-3 bg-yellow-500 text-white font-semibold rounded-md shadow hover:bg-yellow-600/50 hover:text-white transition duration-300"
-              >
-                GET IN TOUCH
-              </Link>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
-      {/* Other Content can go here if needed */}
     </div>
   );
 };

@@ -88,7 +88,7 @@ const Navbar = () => {
               </li>
               <li>
                 <NavLink
-                  to="/reviews"
+                  to="/explore"
                   className={({ isActive }) =>
                     isActive
                       ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
@@ -96,20 +96,7 @@ const Navbar = () => {
                   }
                   onClick={closeMobileMenu}
                 >
-                  REVIEW
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/categories"
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
-                  }
-                  onClick={closeMobileMenu}
-                >
-                  CATEGORIES
+                  EXPLORE
                 </NavLink>
               </li>
               <li>
@@ -144,7 +131,7 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     isActive
                       ? 'text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2'
+                      : 'text-white px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2 bg-yellow-500'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -195,19 +182,6 @@ const Navbar = () => {
                 onClick={closeMobileMenu}
               >
                 Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/reviews"
-                className={({ isActive }) =>
-                  isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                }
-                onClick={closeMobileMenu}
-              >
-                Reviews
               </NavLink>
             </li>
             <li>

@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import VerifyEmail from './pages/VerifyEmail';
 import Navbar from './components/Navbar';
+import Explore from './pages/Explore';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -29,6 +30,7 @@ function App() {
         }
         />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/explore" element={<Explore />} />
       </Routes>
     
     </>

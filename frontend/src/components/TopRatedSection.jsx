@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // Import required modules
-import { Pagination, Navigation } from 'swiper/modules';
+import {Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 // Import React Icons for navigation arrows and rating stars
 import { FaArrowLeft, FaArrowRight, FaStar } from 'react-icons/fa';
@@ -58,10 +58,10 @@ const TopRatedSection = () => {
   ];
 
   return (
-    <section className="py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
         {/* Section Title */}
-        <h2 className="text-4xl font-lora font-bold text-center text-gray-900 mb-8">
+        <h2 className="text-4xl font-lora font-semibold text-center text-gray-600 mb-10">
           Top Rated Books
         </h2>
 
@@ -74,9 +74,13 @@ const TopRatedSection = () => {
             centeredSlides={false}
             spaceBetween={10}
             loop={true}
-            navigation={true}
-            modules={[Pagination, Navigation]}
+            navigation={false}
+            modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
+            autoplay={{
+                delay: 2500,
+                disableOnInteraction: false,
+              }}
             breakpoints={{
                 // when window width is >= 320px
                 320: {
@@ -119,8 +123,8 @@ const TopRatedSection = () => {
           </Swiper>
 
           {/* Fade-out Gradients on Sides */}
-          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-gray-50 pointer-events-none"></div>
-          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-gray-50 pointer-events-none"></div>
+          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[white] pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[white] pointer-events-none"></div>
         </div>
       </div>
     </section>
