@@ -16,6 +16,7 @@
     "@emailjs/browser": "^4.4.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "dotnet": "^1.1.4",
