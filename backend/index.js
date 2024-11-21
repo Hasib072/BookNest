@@ -20,7 +20,7 @@ app.use(cookieParser()); //allows use browser cookies
 
 // Configure CORS
 app.use(cors({
-    origin: "http://localhost:5173", // Frontend URL
+    origin: "https://ha51b-booknest.netlify.app", // Frontend URL
     credentials: true, // Allow cookies to be sent
 }));
 
