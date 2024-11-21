@@ -18,36 +18,8 @@ const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
 
-  // Initialize theme based on localStorage or system preference
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'dark') {
-      setDarkMode(true);
-      document.documentElement.classList.add('dark');
-    } else if (storedTheme === 'light') {
-      setDarkMode(false);
-      document.documentElement.classList.remove('dark');
-    } else {
-      // If no preference, use system preference
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setDarkMode(true);
-        document.documentElement.classList.add('dark');
-      }
-    }
-  }, []);
-
-  // Update theme and localStorage
-  const toggleDarkMode = () => {
-    if (darkMode) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      setDarkMode(false);
-    } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      setDarkMode(true);
-    }
-  };
+  
+  
 
   const handleToggle = () => {
     setIsMobile(!isMobile);
@@ -68,7 +40,7 @@ const Navbar = () => {
         } else {
           setShowNavbar(true);
         }
-      }, 10); // Throttle scroll event
+      }, 10); 
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -84,9 +56,8 @@ const Navbar = () => {
       className={`fixed w-full z-[1000] top-0 transition-opacity duration-500 ease-in-out ${
         showNavbar ? 'opacity-100' : 'opacity-0 pointer-events-none'
       } bg-transparent md:bg-transparent`}
-      data-aos="fade-down"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-down" >
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -107,8 +78,8 @@ const Navbar = () => {
                   to="/"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
+                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
+                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -120,8 +91,8 @@ const Navbar = () => {
                   to="/reviews"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
+                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
+                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -133,8 +104,8 @@ const Navbar = () => {
                   to="/categories"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
+                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
+                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -146,8 +117,8 @@ const Navbar = () => {
                   to="/authors"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
+                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
+                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -159,8 +130,8 @@ const Navbar = () => {
                   to="/about"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem]'
+                      ? 'text-yellow-500 hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
+                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -172,8 +143,8 @@ const Navbar = () => {
                   to="/login"
                   className={({ isActive }) =>
                     isActive
-                      ? 'text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem] border-solid border-yellow-500 border-2'
-                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm font-semibold tracking-[0.2rem] border-solid border-yellow-500 border-2'
+                      ? 'text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2'
+                      : 'text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2'
                   }
                   onClick={closeMobileMenu}
                 >
@@ -218,8 +189,8 @@ const Navbar = () => {
                 to="/"
                 className={({ isActive }) =>
                   isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
+                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
+                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
                 }
                 onClick={closeMobileMenu}
               >
@@ -231,8 +202,8 @@ const Navbar = () => {
                 to="/reviews"
                 className={({ isActive }) =>
                   isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
+                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
+                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
                 }
                 onClick={closeMobileMenu}
               >
@@ -244,8 +215,8 @@ const Navbar = () => {
                 to="/categories"
                 className={({ isActive }) =>
                   isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
+                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
+                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
                 }
                 onClick={closeMobileMenu}
               >
@@ -257,8 +228,8 @@ const Navbar = () => {
                 to="/authors"
                 className={({ isActive }) =>
                   isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
+                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
+                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
                 }
                 onClick={closeMobileMenu}
               >
@@ -270,8 +241,8 @@ const Navbar = () => {
                 to="/about"
                 className={({ isActive }) =>
                   isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base font-semibold tracking-[0.2rem]'
+                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
+                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
                 }
                 onClick={closeMobileMenu}
               >

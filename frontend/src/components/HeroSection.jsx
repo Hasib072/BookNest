@@ -29,8 +29,8 @@ const HeroSection = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ 
-        height: '680px',
-        maxHeight: '680px' 
+        height: '580px',
+        maxHeight: '580px' 
       }} 
       data-aos="fade-in"
     >
