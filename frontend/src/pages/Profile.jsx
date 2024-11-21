@@ -17,7 +17,7 @@ const Profile = () => {
       contextLogout(); // Update AuthContext
       navigate('/login'); // Redirect to login page after logout
     } catch (err) {
-      console.error('Logout Error:', err);
+      console.log('Logout Error:', err);
       // Optionally, display an error message to the user
     }
   };

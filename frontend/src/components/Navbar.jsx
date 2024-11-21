@@ -54,7 +54,7 @@ const Navbar = () => {
           setUser(null);
         }
       } catch (error) {
-        console.error('Auth Check Error:', error);
+        console.log('Auth Check:', error);
         setIsLoggedIn(false);
         setUser(null);
       } finally {
@@ -73,7 +73,7 @@ const Navbar = () => {
       setUser(null);
       navigate('/login'); // Redirect to login page after logout
     } catch (error) {
-      console.error('Logout Error:', error);
+      console.log('Logout Error:', error);
       // Optionally, display an error message to the user
     }
   };

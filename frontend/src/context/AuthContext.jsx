@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
       }
     } catch (error) {
-      console.error('Auth Context Error:', error);
+      console.log('Auth Context Error:', error);
       setIsLoggedIn(false);
       setUser(null);
     } finally {
