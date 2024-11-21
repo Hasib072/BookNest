@@ -1,6 +1,6 @@
 // frontend/src/components/ExploreHeroSection.jsx
 import React, { useState, useEffect } from 'react';
-import backgroundImage from '../assets/booknestHero03.png'; // Primary Background Image
+import backgroundImage from '../assets/booknestHero03.webp'; // Primary Background Image
 import './HeroSection.css'; // Import the CSS file (if needed for additional styles)
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles

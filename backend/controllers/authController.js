@@ -15,7 +15,7 @@ export const checkAuth = async (req,res) => {
 
     } catch (error) {
         console.log("checkAuth Failed: ",error);
-        res.status(500).json({ message: "Internal Server Error" });
+        res.status(500).json({ message: "Internal Server Error Check Auth" });
         
     }
 }
@@ -31,9 +31,17 @@ export const signup = async (req, res) => {
         }
 
         const userExist = await User.findOne({email});
+        
         if (userExist) {
-            return res.status(400).json({success: false,message: "user already Exist"});
+            if (userExist.isVerified) {
+                // User exists and is verified
+                return res.status(400).json({ success: false, message: "User already exists." });
+            } else {
+                // User exists but is not verified
+                return res.status(400).json({ success: false, message: "User not verified. Please verify your email." });
+            }
         }
+
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -128,3 +136,50 @@ export const verifyEmail = async (req, res) =>{
         
     }
 }
+
+export const resendVerification = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        // Validate input
+        if (!email) {
+            return res.status(400).json({ success: false, message: "Email is required." });
+        }
+
+        // Find the user by email
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            // To prevent email enumeration, respond with a generic message
+            return res.status(200).json({ success: true, message: "If an account with that email exists, a verification code has been sent." });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ success: false, message: "This email is already verified." });
+        }
+
+        // Optional: Implement rate limiting logic here to prevent abuse
+
+        // Generate a new verification code
+        const newVerificationCode = generateVerificationCode();
+
+        // Update user's verificationToken and verificationExpireAt
+        user.verificationToken = newVerificationCode;
+        user.verificationExpireAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+
+        await user.save();
+
+        // Send verification email
+        await sendVerificationEmail({
+            to: user.email,
+            name: user.name,
+            verificationCode: newVerificationCode,
+        });
+
+        res.status(200).json({ success: true, message: "Verification code has been resent to your email." });
+
+    } catch (error) {
+        console.error("resendVerification Failed: ", error);
+        res.status(500).json({ success: false, message: "Internal Server Error while resending verification code." });
+    }
+};

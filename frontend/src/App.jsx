@@ -11,28 +11,39 @@ import PrivateRoute from './components/PrivateRoute';
 import VerifyEmail from './pages/VerifyEmail';
 import Navbar from './components/Navbar';
 import Explore from './pages/Explore';
+import Layout from './components/Layout';
+import NotFound from './pages/NotFound';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <Navbar/>      
+    <>      
       {/* Define Routes */}
+      <AuthProvider>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={
+        <Route path="/verify" element={<VerifyEmail />} />
+
+
+        <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={
             <PrivateRoute>
-                <Profile />
-            </PrivateRoute>
-        }
-        />
-        <Route path="/verify-email" element={<VerifyEmail />} />
-        <Route path="/explore" element={<Explore />} />
+                  <Profile />
+              </PrivateRoute>
+          }
+          />
+          <Route path="/explore" element={<Explore />} />
+        </Route>
+        
+        
+         {/* Catch-all Route for 404 Not Found */}
+         <Route path="*" element={<NotFound />} />
       </Routes>
-    
+      </AuthProvider>
     </>
   )
 }

@@ -1,11 +1,12 @@
-// frontend/src/pages/VerifyEmail.jsx
+// frontend/src/components/VerifyEmailModal.jsx
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 import API from '../api';
 import { FaEnvelope, FaSpinner } from 'react-icons/fa';
+import PropTypes from 'prop-types';
 
-const VerifyEmail = () => {
+const VerifyEmailModal = ({ email, onClose }) => {
     const [code, setCode] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
@@ -13,6 +14,28 @@ const VerifyEmail = () => {
     const [resendError, setResendError] = useState('');
     const [isResending, setIsResending] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const codeInputRef = useRef(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // Focus the code input when the modal opens
+        if (codeInputRef.current) {
+            codeInputRef.current.focus();
+        }
+
+        // Handle Escape key to close the modal
+        const handleEsc = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+
+        window.addEventListener('keydown', handleEsc);
+
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [onClose]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,9 +45,11 @@ const VerifyEmail = () => {
         try {
             const response = await API.post('/verify-email', { code });
             setMessage(response.data.message);
-            // Redirect or further actions after verification
-            // For example:
-            // navigate('/profile');
+            // Optionally, redirect to profile page after successful verification
+            setTimeout(() => {
+                onClose(); // Close the modal
+                navigate('/'); // Uncomment if you have access to navigate
+            }, 2000);
         } catch (err) {
             if (err.response && err.response.data && err.response.data.message) {
                 setError(err.response.data.message);
@@ -41,14 +66,6 @@ const VerifyEmail = () => {
         setResendError('');
         setIsResending(true);
         try {
-            // Assume the user’s email is stored in localStorage or context
-            const email = localStorage.getItem('userEmail'); // Example
-            if (!email) {
-                setResendError('User email not found. Please sign up again.');
-                setIsResending(false);
-                return;
-            }
-
             const response = await API.post('/resend-verification', { email });
             setResendMessage(response.data.message);
         } catch (err) {
@@ -63,16 +80,31 @@ const VerifyEmail = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
-            <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        <div
+            className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 transition-opacity duration-300"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="verify-email-title"
+            aria-describedby="verify-email-description"
+        >
+            <div className="bg-white w-full max-w-md p-8 rounded-lg shadow-lg relative transform transition-transform duration-300 scale-100">
+                {/* Close Button */}
+                {/* <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    aria-label="Close Verification Modal"
+                >
+                    &times;
+                </button> */}
+
                 <div className="flex flex-col items-center mb-6">
                     <FaEnvelope className="text-yellow-500 text-4xl mb-2" />
-                    <h2 className="text-3xl font-semibold text-center text-gray-800">
+                    <h2 id="verify-email-title" className="text-2xl font-semibold text-center text-gray-800">
                         Verify Your Email
                     </h2>
                 </div>
-                <p className="text-center text-gray-600 mb-6">
-                    Enter the verification code sent to your email address to activate your account.
+                <p id="verify-email-description" className="text-center text-gray-600 mb-6">
+                    Enter the verification code sent to <strong>{email}</strong> to activate your account.
                 </p>
                 <form onSubmit={handleSubmit}>
                     {/* Verification Code Field */}
@@ -87,6 +119,7 @@ const VerifyEmail = () => {
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                             required
+                            ref={codeInputRef}
                             className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             placeholder="Enter your verification code"
                             aria-describedby="code-helper-text"
@@ -124,7 +157,7 @@ const VerifyEmail = () => {
                 <div className="mt-6 text-center">
                     <p className="text-gray-600">
                         Didn't receive a code?{' '}
-                        <button
+                        <span
                             onClick={handleResend}
                             className={`text-yellow-500 hover:underline ${
                                 isResending ? 'cursor-not-allowed opacity-50' : ''
@@ -132,7 +165,7 @@ const VerifyEmail = () => {
                             disabled={isResending}
                         >
                             {isResending ? 'Resending...' : 'Resend Code'}
-                        </button>
+                        </span>
                     </p>
                     {resendMessage && (
                         <p className="text-green-500 mt-2">
@@ -157,5 +190,9 @@ const VerifyEmail = () => {
         </div>
     );
 };
+    VerifyEmailModal.propTypes = {
+        email: PropTypes.string.isRequired,
+        onClose: PropTypes.func.isRequired,
+    };
 
-export default VerifyEmail;
+export default VerifyEmailModal;

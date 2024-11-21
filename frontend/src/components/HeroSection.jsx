@@ -1,7 +1,7 @@
 // frontend/src/components/HeroSection.jsx
 import React, { useState, useEffect } from 'react';
-import backgroundImage from '../assets/booknestHero01.png'; // Primary Background Image
-import overlayImage from '../assets/booknestHero02.png'; // Overlay Image for Effects
+import backgroundImage from '../assets/booknestHero01.webp'; // Primary Background Image
+import overlayImage from '../assets/booknestHero02.webp'; // Overlay Image for Effects
 import './HeroSection.css'; // Import the CSS file
 import { FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
