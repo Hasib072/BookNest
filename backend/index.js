@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv';
+import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js"
 
 dotenv.config();
@@ -14,6 +15,7 @@ app.get("/", (req, res) =>{
 })
 
 app.use(express.json()); //allows incoming request: req.body
+app.use(cookieParser()); //allows use browser cookies
 
 app.use("/api/auth", authRoutes)
 

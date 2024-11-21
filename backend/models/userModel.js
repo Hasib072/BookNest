@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false
     },
+    role:{
+        type:String,
+        default:"member"
+    },
     resetPasswordToken: String,
     reserPasswordExpireAt: Date,
     verificationToken: String,

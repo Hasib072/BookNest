@@ -4,6 +4,22 @@ import { generateVerificationCode } from "../utils/generateVerificationCode.js";
 import {generateTokenAndSetCookie} from "../utils/generateTokenAndSetCookie.js";
 import { sendVerificationEmail } from '../utils/sendEmail.js';
 
+export const checkAuth = async (req,res) => {
+    try {
+        const user = await User.findById(req.userID).select("-password");
+        if(!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+
+        res.status(200).json({success: true,user});
+
+    } catch (error) {
+        console.log("checkAuth Failed: ",error);
+        res.status(500).json({ message: "Internal Server Error" });
+        
+    }
+}
+
 export const signup = async (req, res) => {
     const { name, email, password } = req.body;
     try {
