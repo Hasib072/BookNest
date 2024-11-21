@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "http://localhost:5001/api/auth",
+    baseURL: "https://booknest-yhqh.onrender.com/api/auth",
     withCredentials: true, // Allow sending cookies
 });
 
