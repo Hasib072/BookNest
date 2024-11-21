@@ -1,8 +1,14 @@
 // frontend/src/api.js
 import axios from "axios";
 
+const BACKEND_BASE_URI = import.meta.env.VITE_BACKEND_BASE_URI;
+
+if (!BACKEND_BASE_URI) {
+    throw new Error("VITE_BACKEND_BASE_URI is not defined in the environment variables.");
+}
+
 const API = axios.create({
-    baseURL: process.env.VITE_BACKEND_BASE_URI + "/api/auth",
+    baseURL: BACKEND_BASE_URI + "/api/auth",
     withCredentials: true, // Allow sending cookies
 });
 
