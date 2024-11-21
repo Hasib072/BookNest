@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: process.env.BACKEND_BASE_URI + "/api/auth",
+    baseURL: process.env.VITE_BACKEND_BASE_URI + "/api/auth",
     withCredentials: true, // Allow sending cookies
 });
 
