@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "https://booknest-yhqh.onrender.com/api/auth",
+    baseURL: process.env.BACKEND_BASE_URI + "/api/auth",
     withCredentials: true, // Allow sending cookies
 });
 
