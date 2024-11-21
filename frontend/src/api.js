@@ -8,7 +8,7 @@ if (!BACKEND_BASE_URI) {
 }
 
 const API = axios.create({
-    baseURL: BACKEND_BASE_URI + "/api/auth",
+    baseURL: `${BACKEND_BASE_URI}/api/auth`,
     withCredentials: true, // Allow sending cookies
 });
 
