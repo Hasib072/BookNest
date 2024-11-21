@@ -9,32 +9,14 @@ import Profile from './pages/Profile';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import VerifyEmail from './pages/VerifyEmail';
+import Navbar from './components/Navbar';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      {/* Navigation Bar */}
-      <nav className="bg-blue-500 p-4">
-        <div className="container mx-auto flex justify-between">
-          <Link to="/" className="text-white font-bold text-xl">
-            BookNest
-          </Link>
-          <div>
-            <Link to="/" className="text-white mr-4">
-              Home
-            </Link>
-            <Link to="/login" className="text-white mr-4">
-              Login
-            </Link>
-            <Link to="/profile" className="text-white mr-4">
-              Profile
-            </Link>
-          </div>
-        </div>
-      </nav>
-      
+      <Navbar/>      
       {/* Define Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -52,5 +34,4 @@ function App() {
     </>
   )
 }
-
 export default App

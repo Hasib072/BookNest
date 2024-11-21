@@ -1,0 +1,17 @@
+/* frontend/src/components/HeroSection.css */
+
+.hero-overlay {
+    clip-path: polygon(0 0, 63% 0, 48% 100%, 0% 100%);
+    transition: clip-path 0.5s ease-in-out;
+}
+
+.hero-overlay.hovered {
+    clip-path: polygon(0 0, 25% 0, 10% 100%, 0% 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-overlay,
+    .hero-overlay.hovered {
+        transition: none;
+    }
+}
