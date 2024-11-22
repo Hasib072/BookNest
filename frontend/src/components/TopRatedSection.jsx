@@ -1,5 +1,5 @@
 // frontend/src/components/TopRatedSection.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -13,6 +13,9 @@ import {Autoplay, Pagination, Navigation } from 'swiper/modules';
 
 // Import React Icons for navigation arrows and rating stars
 import { FaArrowLeft, FaArrowRight, FaStar } from 'react-icons/fa';
+
+import AOS from 'aos';
+
 
 const TopRatedSection = () => {
   const [swiperRef, setSwiperRef] = useState(null);
@@ -57,11 +60,18 @@ const TopRatedSection = () => {
     // Add more books as needed
   ];
 
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // Animation duration in milliseconds
+      once: true, // Whether animation should happen only once - while scrolling down
+    });
+  }, []);
+
   return (
     <section className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
         {/* Section Title */}
-        <h2 className="text-4xl font-lora font-semibold text-center text-gray-600 mb-10">
+        <h2 className="text-4xl font-lora font-semibold text-center text-gray-600 mb-10" data-aos="fade-in">
           Top Rated Books
         </h2>
 
