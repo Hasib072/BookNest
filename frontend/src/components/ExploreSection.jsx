@@ -96,7 +96,7 @@ const ExploreSection = () => {
             <div className="relative z-10 flex flex-col items-center w-full px-4">
                 
                 {/* Hero Text */}
-                <h1 className="text-5xl md:text-7xl font-lora font-bold text-white text-center mt-10 mb-6">
+                <h1 className="text-5xl md:text-7xl font-lora font-bold text-white text-center mt-40 mb-6">
                     Discover New Worlds
                 </h1>
                 
@@ -151,7 +151,7 @@ const ExploreSection = () => {
                     ) : books.length === 0 ? (
                         <div className="text-white text-center">No books found.</div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                             {books.map(book => (
                                 <BookOverview key={book._id} book={book} />
                             ))}

@@ -7,7 +7,6 @@ import Profile from './pages/Profile';
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import VerifyEmail from './pages/VerifyEmail';
-import Navbar from './components/Navbar';
 import Explore from './pages/Explore';
 import Layout from './components/Layout';
 import NotFound from './pages/NotFound';
@@ -55,7 +54,6 @@ function App() {
       <SplashScreen show={isLoading} />
       {!isLoading && (
         <AuthProvider>
-          <Navbar /> {/* Navbar appears on all pages */}
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
