@@ -6,6 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import backgroundImage from '../assets/booknestHero03.webp'; // Primary Background Image
 import API from '../api'; // Axios instance
 import Loader from '../components/Loader'; // Import the Loader component
+import AddBookModal from '../components/AddBookModal'; // Import the AddBookModal component
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Profile = () => {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+    const [books, setBooks] = useState([]); // State to manage book list
 
     // Handle Logout
     const handleLogout = async () => {
@@ -41,6 +44,11 @@ const Profile = () => {
         fetchProfile();
     }, [isLoggedIn, navigate]);
 
+    // Function to handle adding a new book to the list
+    const handleBookAdded = (newBook) => {
+        setBooks(prevBooks => [newBook, ...prevBooks]);
+    };
+
     if (isAuthLoading || loading) {
         // Display the Loader component while loading
         return <Loader />;
@@ -67,14 +75,6 @@ const Profile = () => {
             <div className="bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-3xl font-semibold text-gray-800 mb-6 text-center">Your Profile</h2>
                 <div className="flex flex-col items-center">
-                    {/* User Avatar */}
-                    {/* <div className="w-24 h-24 mb-4">
-                        <img
-                            src={profile.avatar || '/default-avatar.png'} // Provide a default avatar if none exists
-                            alt={`${profile.name}'s avatar`}
-                            className="w-full h-full rounded-full object-cover border-2 border-yellow-500"
-                        />
-                    </div> */}
                     {/* User Information */}
                     <div className="w-full">
                         <p className="mb-2 text-lg">
@@ -89,6 +89,17 @@ const Profile = () => {
                         <p className="mb-4 text-lg">
                             <strong>Role:</strong> {profile.role}
                         </p>
+
+                        {/* Add Book Button for Admins */}
+                        {profile.role === 'admin' && (
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                            >
+                                Add New Book
+                            </button>
+                        )}
+
                         {/* Logout Button */}
                         <button
                             onClick={handleLogout}
@@ -98,14 +109,14 @@ const Profile = () => {
                         </button>
                     </div>
                 </div>
-                {/* Optional: Edit Profile Button */}
-                {/* <button
-                    onClick={() => navigate('/edit-profile')}
-                    className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                    Edit Profile
-                </button> */}
             </div>
+
+            {/* AddBookModal Component */}
+            <AddBookModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onBookAdded={handleBookAdded}
+            />
         </div>
     );
 };

@@ -2,12 +2,14 @@
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
+const BACKEND_BASE_URI = import.meta.env.VITE_BACKEND_BASE_URI;
+
 const BookOverview = ({ book }) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
       {/* Book Cover Image */}
       <img
-        src={book.cover}
+        src={`${BACKEND_BASE_URI}${book.cover}`}
         alt={`${book.title} cover`}
         className="w-40 h-60 object-cover rounded-md mb-4 md:mb-0 md:mr-6 flex-shrink-0"
         loading="lazy"
