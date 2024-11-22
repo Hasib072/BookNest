@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import logo from '../assets/BookNestLogoW.png';
 import { FaSearch } from "react-icons/fa"; // Import Search Icon
 
-const ExploreHeroSection = () => {
+const ExploreSection = () => {
   const [searchQuery, setSearchQuery] = useState(''); // State for search input
 
   useEffect(() => {
@@ -76,4 +76,4 @@ const ExploreHeroSection = () => {
   );
 };
 
-export default ExploreHeroSection;
+export default ExploreSection;

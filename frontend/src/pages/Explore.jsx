@@ -1,11 +1,11 @@
 // frontend/src/pages/Explore.jsx
 import React from 'react';
-import ExploreHeroSection from '../components/ExploreHeroSection';
+import ExploreSection from '../components/ExploreSection';
 
 const Explore = () => {
   return (
     <>
-      <ExploreHeroSection />
+      <ExploreSection />
     </>
   );
 };
