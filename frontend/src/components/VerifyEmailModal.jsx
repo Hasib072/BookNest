@@ -43,7 +43,7 @@ const VerifyEmailModal = ({ email, onClose }) => {
         setError('');
         setIsSubmitting(true);
         try {
-            const response = await API.post('/verify-email', { code });
+            const response = await API.post('/auth/verify-email', { code });
             setMessage(response.data.message);
             // Optionally, redirect to profile page after successful verification
             setTimeout(() => {
@@ -66,7 +66,7 @@ const VerifyEmailModal = ({ email, onClose }) => {
         setResendError('');
         setIsResending(true);
         try {
-            const response = await API.post('/resend-verification', { email });
+            const response = await API.post('/auth/resend-verification', { email });
             setResendMessage(response.data.message);
         } catch (err) {
             if (err.response && err.response.data && err.response.data.message) {

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchAuthStatus = async () => {
     try {
-      const response = await API.get('/check-auth', { withCredentials: true });
+      const response = await API.get('/auth/check-auth', { withCredentials: true });
       if (response.data.success) {
         setIsLoggedIn(true);
         setUser(response.data.user);

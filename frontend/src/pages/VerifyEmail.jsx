@@ -20,7 +20,7 @@ const VerifyEmail = () => {
         setError('');
         setIsSubmitting(true);
         try {
-            const response = await API.post('/verify-email', { code });
+            const response = await API.post('/auth/verify-email', { code });
             setMessage(response.data.message);
             // Redirect or further actions after verification
             // For example:
@@ -49,7 +49,7 @@ const VerifyEmail = () => {
                 return;
             }
 
-            const response = await API.post('/resend-verification', { email });
+            const response = await API.post('/auth/resend-verification', { email });
             setResendMessage(response.data.message);
         } catch (err) {
             if (err.response && err.response.data && err.response.data.message) {

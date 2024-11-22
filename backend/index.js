@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js"
+import userRoutes from "./routes/userRoutes.js"
 import cors from "cors";
 
 dotenv.config();
@@ -24,7 +25,8 @@ app.use(cors({
     credentials: true, // Allow cookies to be sent
 }));
 
-app.use("/api/auth", authRoutes)
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
     db();

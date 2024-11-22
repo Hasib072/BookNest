@@ -45,13 +45,15 @@ const Navbar = () => {
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
-        const response = await API.get('/check-auth', { withCredentials: true });
+        const response = await API.get('auth/check-auth', { withCredentials: true });
         if (response.data.success) {
           setIsLoggedIn(true);
           setUser(response.data.user);
+          console.log(response.data.user);
         } else {
           setIsLoggedIn(false);
           setUser(null);
+          console.log("No Auth Found.");
         }
       } catch (error) {
         console.log('Auth Check:', error);
@@ -68,7 +70,7 @@ const Navbar = () => {
   // Handle Logout
   const handleLogout = async () => {
     try {
-      await API.post('/logout', {}, { withCredentials: true });
+      await API.post('/auth/logout', {}, { withCredentials: true });
       setIsLoggedIn(false);
       setUser(null);
       navigate('/login'); // Redirect to login page after logout

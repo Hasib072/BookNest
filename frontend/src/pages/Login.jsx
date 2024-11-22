@@ -26,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await API.post('/login', formData);
+      const response = await API.post('/auth/login', formData);
       console.log(response.data);
       // Redirect to profile page
       navigate('/');

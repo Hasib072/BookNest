@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import API from '../api';
+import Loader from './Loader';
 
 const PrivateRoute = ({ children }) => {
     const [loading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ const PrivateRoute = ({ children }) => {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                await API.get('/check-auth');
+                await API.get('/auth/check-auth');
                 setAuthenticated(true);
             } catch (err) {
                 setAuthenticated(false);
@@ -23,7 +24,7 @@ const PrivateRoute = ({ children }) => {
     }, []);
 
     if (loading) {
-        return <p className="text-center mt-4">Loading...</p>;
+        return <><Loader/></>;
     }
 
     return authenticated ? children : <Navigate to="/login" />;
