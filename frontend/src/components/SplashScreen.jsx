@@ -14,7 +14,7 @@ const SplashScreen = ({ show }) => {
         role="status"
         aria-live="polite"
       >
-        <img src={logo} alt="BookNest Logo" className="h-48 w-auto mb-60 animate-pulse" />
+        {/* <img src={logo} alt="BookNest Logo" className="h-48 w-auto mb-60 animate-pulse" /> */}
         <Loader fullScreen={true} />
         <span className="sr-only">Loading...</span>
       </div>

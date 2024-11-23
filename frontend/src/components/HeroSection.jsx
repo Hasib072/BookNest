@@ -1,4 +1,5 @@
 // frontend/src/components/HeroSection.jsx
+
 import React, { useState, useEffect } from 'react';
 import backgroundImage from '../assets/booknestHero01.webp'; // Primary Background Image
 import overlayImage from '../assets/booknestHero02.webp'; // Overlay Image for Effects
@@ -8,12 +9,13 @@ import { RiInstagramFill } from "react-icons/ri";
 import { FaSearch } from "react-icons/fa"; // Import Search Icon
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import logo from '../assets/BookNestLogoW.png';
 
 const HeroSection = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // State for search input
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     AOS.init({
@@ -25,8 +27,11 @@ const HeroSection = () => {
   // Handler for form submission
   const handleSearch = (e) => {
     e.preventDefault();
-    // Placeholder for future search functionality
-    console.log('Search Query:', searchQuery);
+    if (searchQuery.trim() !== '') {
+      // Navigate to /explore with search query as URL parameter
+      navigate(`/explore?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery(''); // Optional: Clear the search input after navigation
+    }
   };
 
   return (
@@ -76,7 +81,7 @@ const HeroSection = () => {
               {/* Search Input */}
               <input
                 type="text"
-                placeholder="Search for books..."
+                placeholder="Search for book, author, or tag..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-yellow-100 rounded-md focus:outline-none focus:ring-1 focus:ring-yellow-100"

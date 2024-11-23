@@ -10,10 +10,15 @@ import API from '../api'; // Axios instance
 import BookOverview from './BookOverview'; // Import the BookOverview component
 import BookLoader from './BookLoader';
 import debounce from 'lodash/debounce'; // Import debounce from lodash
+import { useSearchParams } from 'react-router-dom'; // Import useSearchParams
 
 const ExploreSection = () => {
-    const [searchQuery, setSearchQuery] = useState(''); // State for search input
-    const [genre, setGenre] = useState('All'); // State for genre filter
+    const [searchParams, setSearchParams] = useSearchParams(); // Initialize useSearchParams
+    const initialSearch = searchParams.get('search') || ''; // Get 'search' param or default to ''
+    const initialGenre = searchParams.get('genre') || 'All'; // Get 'genre' param or default to 'All'
+    
+    const [searchQuery, setSearchQuery] = useState(initialSearch); // Initialize search input with URL param
+    const [genre, setGenre] = useState(initialGenre); // Initialize genre with URL param
     const [books, setBooks] = useState([]); // State for books
     const [loading, setLoading] = useState(true); // State for loading
     const [error, setError] = useState(null); // State for errors
@@ -52,37 +57,50 @@ const ExploreSection = () => {
     );
 
     useEffect(() => {
+        // Update URL search params
+        const params = {};
+        if (searchQuery.trim() !== '') {
+            params.search = searchQuery.trim();
+        }
+        if (genre && genre !== 'All') {
+            params.genre = genre;
+        }
+        setSearchParams(params);
+
         // Fetch books whenever searchQuery or genre changes with debounce
         debouncedFetchBooks();
 
         // Cleanup the debounce on unmount
         return debouncedFetchBooks.cancel;
-    }, [searchQuery, genre, debouncedFetchBooks]);
+    }, [searchQuery, genre, debouncedFetchBooks, setSearchParams]);
 
     // Function to fetch books from the backend
     const fetchBooks = async () => {
         setLoading(true);
+        console.log("fetch start Set to True");
         setError(null);
         try {
             // Construct query parameters
             const params = {};
-            if (searchQuery) params.search = searchQuery;
+            if (searchQuery.trim() !== '') params.search = searchQuery.trim();
             if (genre && genre !== 'All') params.genre = genre;
 
             const response = await API.get('/books', { params });
             setBooks(response.data.books);
             setLoading(false);
+            console.log("Set to False");
         } catch (err) {
             console.error("Fetch Books Error:", err);
             setError(err.response?.data?.message || "Failed to fetch books.");
             setLoading(false);
+            console.log("Set to False");
+
         }
     };
 
-    // Handler for form submission
-    const handleSearch = (e) => {
-        e.preventDefault();
-        fetchBooks(); // Immediate fetch on form submission
+    // Handler for search input change
+    const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
     };
 
     // Handler for genre change
@@ -123,7 +141,10 @@ const ExploreSection = () => {
                 {/* Search and Filter Bar */}
                 <form 
                     className="mt-8 w-full max-w-[32rem] flex flex-col md:flex-row items-center" 
-                    onSubmit={handleSearch}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        fetchBooks(); // Immediate fetch on form submission
+                    }}
                 >
                     {/* Search Input */}
                     <div className="relative w-full md:w-3/4">
@@ -133,7 +154,7 @@ const ExploreSection = () => {
                             placeholder="Search for book, author, or tag..."
                             className="w-full pl-10 pr-4 py-2 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={handleSearchInputChange}
                         />
                     </div>
                     
@@ -151,13 +172,13 @@ const ExploreSection = () => {
                     </div>
                     
                     {/* Search Button */}
-                    <button
+                    {/* <button
                         type="submit"
                         className="mt-4 md:mt-0 md:ml-4 w-full md:w-auto bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                         aria-label="Search"
                     >
                         Search
-                    </button>
+                    </button> */}
                 </form>
 
                 {/* Books Listing */}
