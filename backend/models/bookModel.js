@@ -20,6 +20,16 @@ const bookSchema = new mongoose.Schema(
             min: [0, 'Rating must be at least 0'],
             max: [5, 'Rating cannot exceed 5'],
         },
+        averageRating: {
+            type: Number,
+            default: 0,
+            min: [0, 'Average rating cannot be less than 0'],
+            max: [5, 'Average rating cannot exceed 5'],
+          },
+        numReviews: {
+          type: Number,
+          default: 0,
+        },
         cover: {
             type: String,
             required: [true, 'Book cover image URL is required'],
@@ -61,5 +71,12 @@ const bookSchema = new mongoose.Schema(
         timestamps: true, // Automatically manages createdAt and updatedAt fields
     }
 );
+
+// Virtual field to populate reviews
+bookSchema.virtual('reviews', {
+    ref: 'Review',
+    localField: '_id',
+    foreignField: 'book',
+});
 
 export const Book = mongoose.model('Book', bookSchema);

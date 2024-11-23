@@ -15,7 +15,8 @@ export const AuthProvider = ({ children }) => {
       const response = await API.get('/auth/check-auth', { withCredentials: true });
       if (response.data.success) {
         setIsLoggedIn(true);
-        setUser(response.data.user);
+        setUser(response.data.user); // Ensure 'isVerified' is part of 'user'
+        // console.log(`AuthContext User: ${response.data.user}`)
       } else {
         setIsLoggedIn(false);
         setUser(null);

@@ -155,7 +155,7 @@ export const resendVerification = async (req, res) => {
         }
 
         if (user.isVerified) {
-            return res.status(400).json({ success: false, message: "This email is already verified." });
+            return res.status(400).json({ success: false, message: `${user.email} is already verified.` });
         }
 
         // Optional: Implement rate limiting logic here to prevent abuse

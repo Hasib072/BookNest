@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import bookRoutes from "./routes/bookRoutes.js"
+import reviewRoutes from "./routes/reviewRoutes.js";
 import cors from "cors";
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -36,6 +37,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use('/api/books', bookRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
