@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import Highlighter from 'react-highlight-words';
+import { Link } from 'react-router-dom';
 
 const BACKEND_BASE_URI = import.meta.env.VITE_BACKEND_BASE_URI;
 
@@ -28,6 +29,7 @@ const BookOverview = ({ book, searchQuery }) => {
   const searchWords = searchQuery ? searchQuery.split(' ').filter(word => word) : [];
 
   return (
+    <Link to={`/books/${book._id}`} className="w-full">
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
       {/* Book Cover Image */}
       <img
@@ -94,6 +96,7 @@ const BookOverview = ({ book, searchQuery }) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 

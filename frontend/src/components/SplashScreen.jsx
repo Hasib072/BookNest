@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Loader from './Loader';
-import logo from '../assets/BookNestLogo.png'; // Replace with your actual logo path
+import logo from '../assets/BookNestLogo.png';
 import { CSSTransition } from 'react-transition-group';
-import './SplashScreen.css'; // Create this CSS file for transitions
+import './SplashScreen.css';
 
 const SplashScreen = ({ show }) => {
   return (

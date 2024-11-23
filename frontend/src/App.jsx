@@ -16,6 +16,7 @@ import { preloadImages } from './utils/preloadImages';
 import API from './api'; // Ensure you have an API utility for making HTTP requests
 import { useContext, useEffect } from 'react';
 import { LoadingContext } from './context/LoadingContext';
+import BookPage from './pages/BookPage';
 
 function App() {
   const { isLoading, setIsLoading } = useContext(LoadingContext);
@@ -70,6 +71,7 @@ function App() {
                 }
               />
               <Route path="/explore" element={<Explore />} />
+              <Route path="/books/:id" element={<BookPage />} />
             </Route>
 
             {/* Catch-all Route for 404 Not Found */}
