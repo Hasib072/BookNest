@@ -1,10 +1,11 @@
 // frontend/src/components/BookOverview.jsx
 import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
+import Highlighter from 'react-highlight-words';
 
 const BACKEND_BASE_URI = import.meta.env.VITE_BACKEND_BASE_URI;
 
-const BookOverview = ({ book }) => {
+const BookOverview = ({ book, searchQuery }) => {
   // State to manage whether the description is expanded or not
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -24,6 +25,8 @@ const BookOverview = ({ book }) => {
     ? book.description.slice(0, DESCRIPTION_LIMIT) + '...'
     : book.description;
 
+  const searchWords = searchQuery ? searchQuery.split(' ').filter(word => word) : [];
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
       {/* Book Cover Image */}
@@ -37,10 +40,21 @@ const BookOverview = ({ book }) => {
       {/* Book Details */}
       <div className="flex flex-col items-center md:items-start">
         <h3 className="text-lg font-lora font-semibold text-gray-800 mb-2 text-center md:text-left">
-          {book.title}
+          <Highlighter
+            highlightClassName="bg-yellow-200"
+            searchWords={searchWords}
+            autoEscape={true}
+            textToHighlight={book.title}
+          />
         </h3>
         <p className="text-sm text-gray-500 mb-2 text-center md:text-left">
-          by {book.author}
+          by 
+          <Highlighter
+            highlightClassName="bg-yellow-200"
+            searchWords={searchWords}
+            autoEscape={true}
+            textToHighlight={book.author}
+          />
         </p>
         <div className="flex items-center mb-4">
           <FaStar className="text-yellow-400 mr-1" />
@@ -69,7 +83,12 @@ const BookOverview = ({ book }) => {
               key={index}
               className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full mr-2 mb-2"
             >
-              {tag}
+              <Highlighter
+              highlightClassName="bg-yellow-200"
+              searchWords={searchWords}
+              autoEscape={true}
+              textToHighlight={tag}
+              />
             </span>
           ))}
         </div>

@@ -171,7 +171,7 @@ const ExploreSection = () => {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                             {books.map(book => (
-                                <BookOverview key={book._id} book={book} />
+                                <BookOverview key={book._id} book={book} searchQuery={searchQuery} />
                             ))}
                         </div>
                     )}
