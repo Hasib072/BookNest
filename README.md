@@ -8,9 +8,15 @@ BookNest is a comprehensive book review platform where users can browse books, r
 
 ## 🔗 Links
 
-- **Live Demo:** [ha51b-booknest.netlify.app](ha51b-booknest.netlify.app)
-- **Documentation:** [https://booknest-docs.com](https://booknest-docs.com)
+- **Live Demo:** [ha51b-booknest.netlify.app](https://ha51b-booknest.netlify.app)
+- **Documentation:** [Click Here](https://drive.google.com/file/d/11fGSMcGkRzgoI7SMcBuDjvpVjedvRdhc)
 - **GitHub Repository:** [https://github.com/Hasib072/BookNest](https://github.com/Hasib072/BookNest)
+
+## ❗❗❗ Note Admin Login
+```
+email: ziseraly@clip.lat
+Password: Admin123456
+```
 
 ## 🚀 Getting Started
 
