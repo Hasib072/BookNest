@@ -48,18 +48,19 @@ const ReviewForm = ({ bookId, onReviewSubmit }) => {
           index += 1;
           return (
             <button
-              type="button"
-              key={index}
-              className={`cursor-pointer focus:outline-none ${
-                index <= (hover || rating) ? 'text-yellow-400' : 'text-gray-300'
-              }`}
-              onClick={() => setRating(index)}
-              onMouseEnter={() => setHover(index)}
-              onMouseLeave={() => setHover(null)}
-              aria-label={`Rate ${index} star${index > 1 ? 's' : ''}`}
-            >
-              <FaStar size={24} />
-            </button>
+  type="button"
+  key={index}
+  className={`cursor-pointer bg-transparent ${
+    index <= (hover || rating) ? 'text-yellow-400' : 'text-gray-300'
+  } focus:outline-none focus:ring-0 active:outline-none hover:shadow-sm focus:shadow-sm`}
+  onClick={() => setRating(index)}
+  onMouseEnter={() => setHover(index)}
+  onMouseLeave={() => setHover(null)}
+  aria-label={`Rate ${index} star${index > 1 ? 's' : ''}`}
+>
+  <FaStar size={24} />
+</button>
+
           );
         })}
       </div>

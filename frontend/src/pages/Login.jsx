@@ -88,7 +88,7 @@ const Login = () => {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-2 top-14 transform -translate-y-1/2 text-gray-100 hover:text-yellow-500 focus:outline-none"
+              className=" bg-transparent absolute right-2 top-14 transform -translate-y-1/2 text-gray-500 hover:text-yellow-500 focus:outline-none"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}

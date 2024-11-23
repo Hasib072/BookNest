@@ -41,7 +41,8 @@ function App() {
         // Optionally, wait for a short duration
         await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second
       } catch (error) {
-        console.log('Error loading app:', error);
+        //console.log('Error loading app:', error);
+        console.log("ignore this");
       } finally {
         setIsLoading(false);
       }

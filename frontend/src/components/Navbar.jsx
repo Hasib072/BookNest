@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { FaBars, FaTimes, FaSun, FaMoon } from 'react-icons/fa';
+import { FaBars, FaTimes, FaHome, FaUserCircle } from 'react-icons/fa';
+import { MdExplore } from 'react-icons/md';
+import { TbWriting } from 'react-icons/tb';
+import { AiFillInfoCircle } from 'react-icons/ai';
 import logo from '../assets/BookNestLogoSW.png';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -20,12 +23,11 @@ const Navbar = () => {
 
   const [isMobile, setIsMobile] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Authentication state
   const [user, setUser] = useState(null); // User data
   const [isLoading, setIsLoading] = useState(true); // Loading state
 
-  // Toggle mobile menu
+  // Toggle mobile menu (if needed for additional mobile interactions)
   const handleToggle = () => {
     setIsMobile(!isMobile);
   };
@@ -35,28 +37,19 @@ const Navbar = () => {
     setIsMobile(false);
   };
 
-  // Handle Dark Mode Toggle (Optional)
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    // Implement further dark mode logic if necessary
-  };
-
   // Fetch authentication status on component mount
   useEffect(() => {
     const fetchAuthStatus = async () => {
       try {
-        const response = await API.get('auth/check-auth', { withCredentials: true });
+        const response = await API.get('/auth/check-auth', { withCredentials: true });
         if (response.data.success) {
           setIsLoggedIn(true);
           setUser(response.data.user);
-          console.log(response.data.user);
         } else {
           setIsLoggedIn(false);
           setUser(null);
-          console.log("No Auth Found.");
         }
       } catch (error) {
-        console.log('Auth Check:', error);
         setIsLoggedIn(false);
         setUser(null);
       } finally {
@@ -193,6 +186,14 @@ const Navbar = () => {
                       PROFILE
                     </NavLink>
                   </li>
+                  {/* <li>
+                    <button
+                      onClick={handleLogout}
+                      className="text-white hover:text-yellow-500 px-3 py-2 rounded-md text-sm tracking-[0.2rem] font-noto"
+                    >
+                      LOGOUT
+                    </button>
+                  </li> */}
                 </>
               ) : (
                 <li>
@@ -223,11 +224,11 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
+          <div className="hidden">
             <button
               onClick={handleToggle}
               type="button"
-              className="text-gray-300 hover:text-white focus:outline-none hover:outline-yellow hover:border-yellow-500 focus:text-white"
+              className="text-black hover:text-yellow-500 focus:outline-none"
               aria-label="Toggle menu"
               aria-expanded={isMobile}
               aria-controls="mobile-menu"
@@ -238,106 +239,96 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMobile && (
-        <div id="mobile-menu" className="md:hidden bg-[#022c4b] text-center transition duration-300 ease-in-out">
-          <ul className="px-12 pt-2 pb-3 space-y-1 sm:px-20 z-[1000]">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                }
-                onClick={closeMobileMenu}
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/explore"
-                className={({ isActive }) =>
-                  isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                }
-                onClick={closeMobileMenu}
-              >
-                Explore
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/authors"
-                className={({ isActive }) =>
-                  isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                }
-                onClick={closeMobileMenu}
-              >
-                Authors
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  isActive
-                    ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                    : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                }
-                onClick={closeMobileMenu}
-              >
-                About
-              </NavLink>
-            </li>
+      {/* Mobile Bottom Navigation */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200">
+        <ul className="flex justify-around items-center h-16">
+          <li>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? 'flex flex-col items-center text-yellow-500'
+                  : 'flex flex-col items-center text-black hover:text-yellow-500'
+              }
+              onClick={closeMobileMenu}
+            >
+              <FaHome size={20} />
+              <span className="text-xs">Home</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/explore"
+              className={({ isActive }) =>
+                isActive
+                  ? 'flex flex-col items-center text-yellow-500'
+                  : 'flex flex-col items-center text-black hover:text-yellow-500'
+              }
+              onClick={closeMobileMenu}
+            >
+              <MdExplore size={20} />
+              <span className="text-xs">Explore</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/authors"
+              className={({ isActive }) =>
+                isActive
+                  ? 'flex flex-col items-center text-yellow-500'
+                  : 'flex flex-col items-center text-black hover:text-yellow-500'
+              }
+              onClick={closeMobileMenu}
+            >
+              <TbWriting size={20} />
+              <span className="text-xs">Authors</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive
+                  ? 'flex flex-col items-center text-yellow-500'
+                  : 'flex flex-col items-center text-black hover:text-yellow-500'
+              }
+              onClick={closeMobileMenu}
+            >
+              <AiFillInfoCircle size={20} />
+              <span className="text-xs">About</span>
+            </NavLink>
+          </li>
+          <li>
             {isLoggedIn ? (
-              <>
-                <li>
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                      isActive
-                        ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                        : 'block text-white hover:text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto'
-                    }
-                    onClick={closeMobileMenu}
-                  >
-                    Profile
-                  </NavLink>
-                </li>
-              </>
-            ) : (
-              <li>
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'block text-yellow-500 px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2'
-                      : 'block text-white px-3 py-2 rounded-md text-base tracking-[0.2rem] font-noto border-solid border-yellow-500 border-2 bg-yellow-500'
-                  }
-                  onClick={closeMobileMenu}
-                >
-                  Login
-                </NavLink>
-              </li>
-            )}
-            {/* Mobile Dark Mode Toggle (Optional)
-            <li className="mt-4">
-              <button
-                onClick={toggleDarkMode}
-                className="flex items-center justify-center w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full mx-auto focus:outline-none"
-                aria-label="Toggle Dark Mode"
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  isActive
+                    ? 'flex flex-col items-center text-yellow-500'
+                    : 'flex flex-col items-center text-black hover:text-yellow-500'
+                }
+                onClick={closeMobileMenu}
               >
-                {darkMode ? <FaSun className="text-yellow-500" /> : <FaMoon className="text-gray-800" />}
-              </button>
-            </li> */}
-          </ul>
-        </div>
-      )}
+                <FaUserCircle size={20} />
+                <span className="text-xs">Profile</span>
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive
+                    ? 'flex flex-col items-center text-yellow-500'
+                    : 'flex flex-col items-center text-black hover:text-yellow-500'
+                }
+                onClick={closeMobileMenu}
+              >
+                <FaUserCircle size={20} />
+                <span className="text-xs">Login</span>
+              </NavLink>
+            )}
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };

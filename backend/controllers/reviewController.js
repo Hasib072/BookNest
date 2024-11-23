@@ -20,7 +20,7 @@ const getReviews = asyncHandler(async (req, res) => {
 
   const reviews = await Review.find(filter)
     .populate('user', 'name') // Populate user's name
-    .populate('book', 'title'); // Populate book's title
+    .populate('book', 'title author cover'); // Populate book's title
 
   res.json({ reviews });
 });

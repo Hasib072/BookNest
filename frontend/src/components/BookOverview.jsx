@@ -61,7 +61,7 @@ const BookOverview = ({ book, searchQuery }) => {
         <div className="flex items-center mb-4">
           <FaStar className="text-yellow-400 mr-1" />
           <span className="text-sm font-medium text-gray-700">
-            {book.rating}
+            {book.averageRating}
           </span>
         </div>
         <p className="text-sm text-gray-600 mb-4 text-center md:text-left">

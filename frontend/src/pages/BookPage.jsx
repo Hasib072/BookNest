@@ -7,6 +7,7 @@ import Loader from '../components/Loader';
 import { FaStar } from 'react-icons/fa';
 import Review from '../components/Review'; // Import Review component
 import ReviewForm from '../components/ReviewForm'; // Import ReviewForm component
+import FooterComponent from '../components/FooterComponent';
 
 const BookPage = () => {
   const { id } = useParams(); // Extract the book ID from the URL
@@ -50,8 +51,13 @@ const BookPage = () => {
         const response = await API.get('/users/profile'); // Adjust the endpoint as needed
         setUserProfile(response.data.user);
       } catch (err) {
-        console.error('Fetch User Profile Error:', err);
-        setUserError(err.response?.data?.message || 'Failed to fetch user profile.');
+        if (err.response && err.response.status === 401) {
+          // User is not authenticated
+          setUserProfile(null);
+        } else {
+          console.error('Fetch User Profile Error:', err);
+          setUserError(err.response?.data?.message || 'Failed to fetch user profile.');
+        }
       } finally {
         setIsUserLoading(false);
       }
@@ -100,14 +106,7 @@ const BookPage = () => {
     return <Loader />; // Display loader while fetching user profile or book data
   }
 
-  if (userError) {
-    return (
-      <div className="error-message text-red-500 text-center mt-10">
-        {userError}
-      </div>
-    );
-  }
-
+  // If there's a book error, display it
   if (error) {
     return (
       <div className="error-message text-red-500 text-center mt-10">
@@ -120,6 +119,15 @@ const BookPage = () => {
     return (
       <div className="no-book text-center mt-10">
         Book not found.
+      </div>
+    );
+  }
+
+  if (userError) {
+    // If there's a user error other than 401, display it
+    return (
+      <div className="error-message text-red-500 text-center mt-10">
+        {userError}
       </div>
     );
   }
@@ -160,6 +168,7 @@ const BookPage = () => {
   }
 
   return (
+    <>
     <div className="book-page-container">
       {/* Banner Section */}
       <div
@@ -240,7 +249,7 @@ const BookPage = () => {
       {/* Reviews Section */}
       <div className="container mx-auto w-[70%] px-4 py-8">
         {/* Reviews Title */}
-        <h2 className="text-2xl font-semibold mb-4">
+        <h2 className="text-2xl font-semibold mb-4 text-left">
           Reviews
         </h2>
 
@@ -258,6 +267,8 @@ const BookPage = () => {
       </div>
 
     </div>
+    <FooterComponent/>
+    </>
   );
 };
 

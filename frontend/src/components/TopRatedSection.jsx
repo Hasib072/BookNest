@@ -1,5 +1,7 @@
 // frontend/src/components/TopRatedSection.jsx
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types'; // For prop type validation
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -9,57 +11,18 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // Import required modules
-import {Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 
-// Import React Icons for navigation arrows and rating stars
-import { FaArrowLeft, FaArrowRight, FaStar } from 'react-icons/fa';
+// Import React Icons for rating stars
+import { FaStar } from 'react-icons/fa';
 
 import AOS from 'aos';
+import 'aos/dist/aos.css'; // Import AOS styles
 
+import Loader from './Loader'; // Ensure you have a Loader component
+import { Link } from 'react-router-dom';
 
-const TopRatedSection = () => {
-  const [swiperRef, setSwiperRef] = useState(null);
-
-  // Placeholder JSON data for top-rated books
-  const topRatedBooks = [
-    {
-      id: 1,
-      title: 'The Great Gatsby',
-      author: 'F. Scott Fitzgerald',
-      rating: 4.8,
-      cover: 'https://placehold.co/260x409', // Placeholder image
-    },
-    {
-      id: 2,
-      title: 'To Kill a Mockingbird',
-      author: 'Harper Lee',
-      rating: 4.9,
-      cover: 'https://placehold.co/260x409',
-    },
-    {
-      id: 3,
-      title: '1984',
-      author: 'George Orwell',
-      rating: 4.7,
-      cover: 'https://placehold.co/260x409',
-    },
-    {
-      id: 4,
-      title: 'Pride and Prejudice',
-      author: 'Jane Austen',
-      rating: 4.6,
-      cover: 'https://placehold.co/260x409',
-    },
-    {
-      id: 5,
-      title: 'The Catcher in the Rye',
-      author: 'J.D. Salinger',
-      rating: 4.5,
-      cover: 'https://placehold.co/260x409',
-    },
-    // Add more books as needed
-  ];
-
+const TopRatedSection = ({ topRatedBooks, loading, error }) => {
   useEffect(() => {
     AOS.init({
       duration: 1000, // Animation duration in milliseconds
@@ -67,11 +30,46 @@ const TopRatedSection = () => {
     });
   }, []);
 
+  if (loading) {
+    return (
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Loader /> {/* Display loader while fetching */}
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-red-500 text-center">{error}</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!topRatedBooks || topRatedBooks.length === 0) {
+    return (
+      <section className="py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-gray-600 text-center">
+            No top-rated books available at the moment.
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
         {/* Section Title */}
-        <h2 className="text-4xl font-lora font-semibold text-center text-gray-600 mb-10" data-aos="fade-in">
+        <h2
+          className="text-4xl font-lora font-semibold text-center text-gray-600 mb-10"
+          data-aos="fade-in"
+        >
           Top Rated Books
         </h2>
 
@@ -79,7 +77,6 @@ const TopRatedSection = () => {
         <div className="relative">
           {/* Swiper Carousel */}
           <Swiper
-            onSwiper={setSwiperRef}
             slidesPerView={4}
             centeredSlides={false}
             spaceBetween={10}
@@ -88,29 +85,30 @@ const TopRatedSection = () => {
             modules={[Autoplay, Pagination, Navigation]}
             className="mySwiper"
             autoplay={{
-                delay: 2500,
-                disableOnInteraction: false,
-              }}
+              delay: 2500,
+              disableOnInteraction: false,
+            }}
             breakpoints={{
-                // when window width is >= 320px
-                320: {
-                  slidesPerView: 1,
-                },
-                // when window width is >= 640px
-                640: {
-                  slidesPerView: 2,
-                },
-                // when window width is >= 1024px
-                1024: {
-                  slidesPerView: 4,
-                },
-              }}
+              // when window width is >= 320px
+              320: {
+                slidesPerView: 1,
+              },
+              // when window width is >= 640px
+              640: {
+                slidesPerView: 2,
+              },
+              // when window width is >= 1024px
+              1024: {
+                slidesPerView: 4,
+              },
+            }}
           >
             {topRatedBooks.map((book) => (
-              <SwiperSlide key={book.id}>
+              <SwiperSlide key={book._id}>
+                <Link to={`/books/${book._id}`} className="w-full">
                 <div className="rounded-lg p-4 flex flex-col items-center">
                   <img
-                    src={book.cover}
+                    src={`${import.meta.env.VITE_BACKEND_BASE_URI}${book.cover}`}
                     alt={`${book.title} cover`}
                     className="w-40 h-60 object-cover rounded-md mb-4"
                     loading="lazy"
@@ -124,21 +122,43 @@ const TopRatedSection = () => {
                   <div className="flex items-center">
                     <FaStar className="text-yellow-400 mr-1" />
                     <span className="text-sm font-medium text-gray-700">
-                      {book.rating}
+                      {book.averageRating}
                     </span>
                   </div>
                 </div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
 
           {/* Fade-out Gradients on Sides */}
-          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[white] pointer-events-none"></div>
-          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[white] pointer-events-none"></div>
+          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-white pointer-events-none"></div>
         </div>
       </div>
     </section>
   );
+};
+
+// Prop type validation
+TopRatedSection.propTypes = {
+  topRatedBooks: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      author: PropTypes.string.isRequired,
+      averageRating: PropTypes.number.isRequired,
+      cover: PropTypes.string.isRequired,
+    })
+  ),
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+};
+
+TopRatedSection.defaultProps = {
+  topRatedBooks: [],
+  loading: false,
+  error: null,
 };
 
 export default TopRatedSection;

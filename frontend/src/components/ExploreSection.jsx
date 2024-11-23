@@ -1,6 +1,6 @@
 // frontend/src/components/ExploreSection.jsx
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import backgroundImage from '../assets/booknestHero03.webp'; // Primary Background Image
 import './HeroSection.css'; // Import the CSS file (if needed for additional styles)
 import AOS from 'aos';
@@ -22,6 +22,9 @@ const ExploreSection = () => {
     const [books, setBooks] = useState([]); // State for books
     const [loading, setLoading] = useState(true); // State for loading
     const [error, setError] = useState(null); // State for errors
+    const [currentPage, setCurrentPage] = useState(1); // State for current page
+    
+    const BOOKS_PER_PAGE = 8; // Number of books per page
 
     // List of genres for the filter dropdown
     const genres = [
@@ -42,13 +45,13 @@ const ExploreSection = () => {
     useEffect(() => {
         AOS.init({
             duration: 1000, // Animation duration in milliseconds
-            once: true, // Whether animation should happen only once - while scrolling down
+            once: true, // Whether animation should happen only once while scrolling down
         });
-        fetchBooks(); // Fetch books on component mount
+        // Removed fetchBooks() to prevent double fetching
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Debounced fetchBooks function
+    // Debounced fetchBooks function to prevent excessive API calls
     const debouncedFetchBooks = useCallback(
         debounce(() => {
             fetchBooks();
@@ -66,6 +69,9 @@ const ExploreSection = () => {
             params.genre = genre;
         }
         setSearchParams(params);
+
+        // Reset to first page when search query or genre changes
+        setCurrentPage(1);
 
         // Fetch books whenever searchQuery or genre changes with debounce
         debouncedFetchBooks();
@@ -94,7 +100,6 @@ const ExploreSection = () => {
             setError(err.response?.data?.message || "Failed to fetch books.");
             setLoading(false);
             console.log("Set to False");
-
         }
     };
 
@@ -106,6 +111,46 @@ const ExploreSection = () => {
     // Handler for genre change
     const handleGenreChange = (e) => {
         setGenre(e.target.value);
+    };
+
+    // Calculate total pages
+    const totalPages = useMemo(() => {
+        return Math.ceil(books.length / BOOKS_PER_PAGE);
+    }, [books.length]);
+
+    // Get current books for the page
+    const currentBooks = useMemo(() => {
+        const indexOfLastBook = currentPage * BOOKS_PER_PAGE;
+        const indexOfFirstBook = indexOfLastBook - BOOKS_PER_PAGE;
+        return books.slice(indexOfFirstBook, indexOfLastBook);
+    }, [currentPage, books]);
+
+    // Handler for page change
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        // Scroll to top when page changes
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Generate page numbers for pagination controls
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(
+                <button
+                    key={i}
+                    onClick={() => handlePageChange(i)}
+                    className={`px-3 py-1 rounded-md mx-1 ${
+                        currentPage === i
+                            ? 'bg-yellow-500 text-white'
+                            : 'bg-gray-200 text-gray-700 hover:bg-yellow-400 hover:text-white'
+                    }`}
+                >
+                    {i}
+                </button>
+            );
+        }
+        return pageNumbers;
     };
 
     return (
@@ -171,7 +216,7 @@ const ExploreSection = () => {
                         </select>
                     </div>
                     
-                    {/* Search Button */}
+                    {/* Search Button (Optional) */}
                     {/* <button
                         type="submit"
                         className="mt-4 md:mt-0 md:ml-4 w-full md:w-auto bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
@@ -182,19 +227,56 @@ const ExploreSection = () => {
                 </form>
 
                 {/* Books Listing */}
-                <div className="mt-10 w-full max-w-6xl px-4 min-h-[450px] flex items-center justify-center">
+                <div className="mt-10 w-full max-w-6xl px-4 min-h-[450px] flex flex-col items-center">
                     {loading ? (
                         <BookLoader />
+                        //<p className='hidden'>loading..</p>
                     ) : error ? (
                         <div className="text-red-500 text-center min-h-[450px]">{error}</div>
                     ) : books.length === 0 ? (
                         <div className="text-center min-h-[450px]">No books found.</div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                            {books.map(book => (
-                                <BookOverview key={book._id} book={book} searchQuery={searchQuery} />
-                            ))}
-                        </div>
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+                                {currentBooks.map(book => (
+                                    <BookOverview key={book._id} book={book} searchQuery={searchQuery} />
+                                ))}
+                            </div>
+
+                            {/* Pagination Controls */}
+                            {totalPages > 1 && (
+                                <div className="mt-8 flex justify-center items-center space-x-2">
+                                    {/* Previous Button */}
+                                    <button
+                                        onClick={() => handlePageChange(currentPage - 1)}
+                                        disabled={currentPage === 1}
+                                        className={`px-3 py-1 rounded-md ${
+                                            currentPage === 1
+                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                : 'bg-gray-200 text-gray-700 hover:bg-yellow-400 hover:text-white'
+                                        }`}
+                                    >
+                                        Previous
+                                    </button>
+
+                                    {/* Page Numbers */}
+                                    {renderPageNumbers()}
+
+                                    {/* Next Button */}
+                                    <button
+                                        onClick={() => handlePageChange(currentPage + 1)}
+                                        disabled={currentPage === totalPages}
+                                        className={`px-3 py-1 rounded-md ${
+                                            currentPage === totalPages
+                                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                : 'bg-gray-200 text-gray-700 hover:bg-yellow-400 hover:text-white'
+                                        }`}
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            )}
+                        </>
                     )}
                 </div>
             </div>
