@@ -1,6 +1,6 @@
 // frontend/src/components/ExploreSection.jsx
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import backgroundImage from '../assets/booknestHero03.webp'; // Primary Background Image
 import './HeroSection.css'; // Import the CSS file (if needed for additional styles)
 import AOS from 'aos';
@@ -8,7 +8,8 @@ import 'aos/dist/aos.css'; // Import AOS styles
 import { FaSearch } from "react-icons/fa"; // Import Search Icon
 import API from '../api'; // Axios instance
 import BookOverview from './BookOverview'; // Import the BookOverview component
-import Loader from './Loader'; // Import the Loader component
+import BookLoader from './BookLoader';
+import debounce from 'lodash/debounce'; // Import debounce from lodash
 
 const ExploreSection = () => {
     const [searchQuery, setSearchQuery] = useState(''); // State for search input
@@ -39,13 +40,24 @@ const ExploreSection = () => {
             once: true, // Whether animation should happen only once - while scrolling down
         });
         fetchBooks(); // Fetch books on component mount
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Debounced fetchBooks function
+    const debouncedFetchBooks = useCallback(
+        debounce(() => {
+            fetchBooks();
+        }, 500), // Adjust the delay as needed (500ms in this example)
+        [searchQuery, genre]
+    );
+
     useEffect(() => {
-        // Fetch books whenever searchQuery or genre changes
-        fetchBooks();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchQuery, genre]);
+        // Fetch books whenever searchQuery or genre changes with debounce
+        debouncedFetchBooks();
+
+        // Cleanup the debounce on unmount
+        return debouncedFetchBooks.cancel;
+    }, [searchQuery, genre, debouncedFetchBooks]);
 
     // Function to fetch books from the backend
     const fetchBooks = async () => {
@@ -70,7 +82,7 @@ const ExploreSection = () => {
     // Handler for form submission
     const handleSearch = (e) => {
         e.preventDefault();
-        fetchBooks();
+        fetchBooks(); // Immediate fetch on form submission
     };
 
     // Handler for genre change
@@ -79,40 +91,46 @@ const ExploreSection = () => {
     };
 
     return (
-        <div
-            className="hero-container relative flex flex-col items-center justify-center bg-gray-100"
-            style={{ 
-                minHeight: '500px',
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-            }} 
-            data-aos="fade-in"
-        >
-            {/* Overlay for better text visibility */}
-            <div className="absolute inset-0 bg-black opacity-40"></div>
+        <>
+            <div
+                className="hero-container relative flex flex-col items-center justify-center bg-gray-100"
+                style={{ 
+                    minHeight: '400px',
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }} 
+                data-aos="fade-in"
+            >
+                {/* Overlay for better text visibility */}
+                <div className="absolute inset-0 bg-black opacity-40"></div>
 
-            {/* Content Wrapper */}
-            <div className="relative z-10 flex flex-col items-center w-full px-4">
-                
-                {/* Hero Text */}
-                <h1 className="text-5xl md:text-7xl font-lora font-bold text-white text-center mt-40 mb-6">
-                    Discover New Worlds
-                </h1>
-                
-                {/* Subheading */}
-                <h2 className="mt-4 text-lg md:text-2xl text-white drop-shadow-lg font-noto text-center max-w-2xl">
-                    "Embark on a journey through captivating stories and unexplored adventures."
-                </h2>
-                
+                {/* Content Wrapper */}
+                <div className="relative z-10 flex flex-col items-center w-full px-4">
+                    
+                    {/* Hero Text */}
+                    <h1 className="text-5xl md:text-7xl font-lora font-bold text-white text-center mt-30 mb-6">
+                        Discover New Worlds
+                    </h1>
+                    
+                    {/* Subheading */}
+                    <h2 className="mt-4 text-lg md:text-2xl text-white drop-shadow-lg font-noto text-center max-w-2xl">
+                        "Embark on a journey through captivating stories and unexplored adventures."
+                    </h2>
+                </div>
+            </div>
+            <div className='flex flex-col items-center justify-center min-h-[500px]'>
                 {/* Search and Filter Bar */}
-                <form className="mt-8 w-full max-w-md flex flex-col md:flex-row items-center" onSubmit={handleSearch}>
+                <form 
+                    className="mt-8 w-full max-w-[32rem] flex flex-col md:flex-row items-center" 
+                    onSubmit={handleSearch}
+                >
                     {/* Search Input */}
-                    <div className="relative w-full md:w-2/3">
+                    <div className="relative w-full md:w-3/4">
                         <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-500" />
                         <input
                             type="text"
-                            placeholder="Search for books..."
+                            placeholder="Search for book, author, or tag..."
                             className="w-full pl-10 pr-4 py-2 border border-yellow-500 rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -120,7 +138,7 @@ const ExploreSection = () => {
                     </div>
                     
                     {/* Genre Filter */}
-                    <div className="mt-4 md:mt-0 md:ml-4 w-full md:w-1/3">
+                    <div className="mt-4 md:mt-0 md:ml-4 w-full md:w-1/4">
                         <select
                             value={genre}
                             onChange={handleGenreChange}
@@ -143,13 +161,13 @@ const ExploreSection = () => {
                 </form>
 
                 {/* Books Listing */}
-                <div className="mt-10 w-full max-w-6xl px-4">
+                <div className="mt-10 w-full max-w-6xl px-4 min-h-[450px] flex items-center justify-center">
                     {loading ? (
-                        <Loader />
+                        <BookLoader />
                     ) : error ? (
-                        <div className="text-red-500 text-center">{error}</div>
+                        <div className="text-red-500 text-center min-h-[450px]">{error}</div>
                     ) : books.length === 0 ? (
-                        <div className="text-white text-center">No books found.</div>
+                        <div className="text-center min-h-[450px]">No books found.</div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                             {books.map(book => (
@@ -159,8 +177,9 @@ const ExploreSection = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </>
     );
+
 };
 
 export default ExploreSection;

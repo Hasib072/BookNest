@@ -1,42 +1,7 @@
 /* frontend/src/components/Loader.css */
 
-/* Common Loader Animation */
-.jimu-primary-loading:before,
-.jimu-primary-loading:after {
-    position: absolute;
-    top: 0;
-    content: '';
-}
-
-.jimu-primary-loading:before {
-    left: -19.992px;
-}
-
-.jimu-primary-loading:after {
-    left: 19.992px;
-    animation-delay: 0.32s !important;
-}
-
-.jimu-primary-loading:before,
-.jimu-primary-loading:after,
-.jimu-primary-loading {
-    background: #FFC107; /* Amber shade of yellow */
-    animation: loading-keys-app-loading 0.8s infinite ease-in-out;
-    width: 13.6px;
-    height: 32px;
-}
-
-.jimu-primary-loading {
-    text-indent: -9999em;
-    margin: auto;
-    position: absolute;
-    right: calc(50% - 6.8px);
-    top: calc(50% - 16px);
-    animation-delay: 0.16s !important;
-}
-
-/* Full-Screen Loader Styles */
-.loader.full-screen {
+/* Loader Container */
+.loader {
     position: fixed; /* Changed to fixed to overlay the entire screen */
     top: 0;
     bottom: 0;
@@ -49,12 +14,42 @@
     z-index: 9999; /* Ensure the loader is on top */
 }
 
-/* Container Loader Styles */
-.loader.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* No overlay or fixed positioning */
+/* Loader Animation */
+.jimu-primary-loading:before,
+.jimu-primary-loading:after {
+    position: absolute;
+    top: 0;
+    content: '';
+}
+
+/* Positioning the before and after elements */
+.jimu-primary-loading:before {
+    left: -19.992px;
+}
+
+.jimu-primary-loading:after {
+    left: 19.992px;
+    animation-delay: 0.32s !important;
+}
+
+/* Loader Bars Styling with Shades of Yellow */
+.jimu-primary-loading:before,
+.jimu-primary-loading:after,
+.jimu-primary-loading {
+    background: #FFC107; /* Amber shade of yellow */
+    animation: loading-keys-app-loading 0.8s infinite ease-in-out;
+    width: 13.6px;
+    height: 32px;
+}
+
+/* Hide text for accessibility */
+.jimu-primary-loading {
+    text-indent: -9999em;
+    margin: auto;
+    position: absolute;
+    right: calc(50% - 6.8px);
+    top: calc(50% - 16px);
+    animation-delay: 0.16s !important;
 }
 
 /* Keyframes for the loading animation */

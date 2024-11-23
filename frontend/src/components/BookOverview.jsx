@@ -1,10 +1,29 @@
 // frontend/src/components/BookOverview.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 const BACKEND_BASE_URI = import.meta.env.VITE_BACKEND_BASE_URI;
 
 const BookOverview = ({ book }) => {
+  // State to manage whether the description is expanded or not
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Description limit parameter
+  const DESCRIPTION_LIMIT = 122; // Maximum number of characters to display in the description
+
+  // Function to toggle the expanded state
+  const toggleDescription = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  // Determine if the description needs to be truncated
+  const isLongDescription = book.description.length > DESCRIPTION_LIMIT;
+
+  // Truncated description based on the limit
+  const truncatedDescription = isLongDescription
+    ? book.description.slice(0, DESCRIPTION_LIMIT) + '...'
+    : book.description;
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center">
       {/* Book Cover Image */}
@@ -30,7 +49,19 @@ const BookOverview = ({ book }) => {
           </span>
         </div>
         <p className="text-sm text-gray-600 mb-4 text-center md:text-left">
-          {book.description}
+          {isExpanded || !isLongDescription
+            ? book.description
+            : truncatedDescription}
+          {isLongDescription && (
+            <span
+              // onClick={toggleDescription}
+              className="text-blue-500 cursor-pointer ml-1 hover:underline focus:outline-none"
+              aria-expanded={isExpanded}
+              aria-label={isExpanded ? 'Read less about the book' : 'Read more about the book'}
+            >
+              {isExpanded ? ' read less.' : ' read more.'}
+            </span>
+          )}
         </p>
         <div className="flex flex-wrap justify-center md:justify-start">
           {book.tags.map((tag, index) => (

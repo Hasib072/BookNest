@@ -1,0 +1,193 @@
+/* frontend/src/components/Loader.css */
+
+/* CSS Variables for Yellow Color Scheme */
+.Bloader {
+    --background: linear-gradient(135deg, #FFC107, #FFEB3B); /* Yellow gradient */
+    --shadow: rgba(255, 193, 7, 0.28); /* Yellow shadow */
+    --text: #6C7486; /* Grayish text */
+    --page: rgba(255, 255, 255, 0.36); /* Semi-transparent white */
+    --page-fold: rgba(255, 255, 255, 0.52); /* More opaque white */
+    --duration: 3s; /* Animation duration */
+  
+    width: 200px;
+    height: 140px;
+    position: relative;
+  }
+  
+  /* Modifier Classes for Loader Modes */
+  .Bloader.full-screen {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Ensure the loader is on top */
+  }
+  
+  .Bloader.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Important for absolute positioning of children */
+  }
+  
+  /* Loader Structure */
+  .Bloader > div {
+    width: 100%;
+    height: 100%;
+    border-radius: 13px;
+    position: relative;
+    z-index: 1;
+    perspective: 600px;
+    box-shadow: 0 4px 6px var(--shadow);
+    background-image: var(--background);
+  }
+  
+  .Bloader > div ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+  }
+  
+  .Bloader > div ul li {
+    --r: 180deg;
+    --o: 0;
+    --c: var(--page);
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transform-origin: 100% 50%;
+    color: var(--c);
+    opacity: var(--o);
+    transform: rotateY(var(--r));
+    animation: var(--duration) ease infinite;
+  }
+  
+  .Bloader > div ul li:nth-child(2) {
+    --c: var(--page-fold);
+    animation-name: page-2;
+  }
+  
+  .Bloader > div ul li:nth-child(3) {
+    --c: var(--page-fold);
+    animation-name: page-3;
+  }
+  
+  .Bloader > div ul li:nth-child(4) {
+    --c: var(--page-fold);
+    animation-name: page-4;
+  }
+  
+  .Bloader > div ul li:nth-child(5) {
+    --c: var(--page-fold);
+    animation-name: page-5;
+  }
+  
+  .Bloader > div ul li svg {
+    width: 90px;
+    height: 120px;
+    display: block;
+  }
+  
+  .Bloader > div ul li:first-child {
+    --r: 0deg;
+    --o: 1;
+  }
+  
+  .Bloader > div ul li:last-child {
+    --o: 1;
+  }
+  
+  .Bloader > span {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: 20px;
+    text-align: center;
+    color: var(--text);
+  }
+  
+  /* Keyframes for Page Animations */
+  @keyframes page-2 {
+    0% {
+      transform: rotateY(180deg);
+      opacity: 0;
+    }
+  
+    20% {
+      opacity: 1;
+    }
+  
+    35%, 100% {
+      opacity: 0;
+    }
+  
+    50%, 100% {
+      transform: rotateY(0deg);
+    }
+  }
+  
+  @keyframes page-3 {
+    15% {
+      transform: rotateY(180deg);
+      opacity: 0;
+    }
+  
+    35% {
+      opacity: 1;
+    }
+  
+    50%, 100% {
+      opacity: 0;
+    }
+  
+    65%, 100% {
+      transform: rotateY(0deg);
+    }
+  }
+  
+  @keyframes page-4 {
+    30% {
+      transform: rotateY(180deg);
+      opacity: 0;
+    }
+  
+    50% {
+      opacity: 1;
+    }
+  
+    65%, 100% {
+      opacity: 0;
+    }
+  
+    80%, 100% {
+      transform: rotateY(0deg);
+    }
+  }
+  
+  @keyframes page-5 {
+    45% {
+      transform: rotateY(180deg);
+      opacity: 0;
+    }
+  
+    65% {
+      opacity: 1;
+    }
+  
+    80%, 100% {
+      opacity: 0;
+    }
+  
+    95%, 100% {
+      transform: rotateY(0deg);
+    }
+  }
+  

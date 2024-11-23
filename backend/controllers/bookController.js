@@ -72,7 +72,8 @@ export const getBooks = async (req, res) => {
             query.$or = [
                 { title: { $regex: search, $options: 'i' } },
                 { author: { $regex: search, $options: 'i' } },
-            ];
+                { tags: { $regex: search, $options: 'i' } }
+              ];
         }
 
         if (genre) {
