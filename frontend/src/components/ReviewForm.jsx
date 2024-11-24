@@ -43,7 +43,7 @@ const ReviewForm = ({ bookId, onReviewSubmit }) => {
       <h3 className="text-xl font-semibold mb-4">Add a Review</h3>
 
       {/* Rating */}
-      <div className="flex items-center mb-4">
+      <div className="flex items-center text-center justify-center mb-4">
         {[...Array(5)].map((star, index) => {
           index += 1;
           return (
@@ -52,13 +52,13 @@ const ReviewForm = ({ bookId, onReviewSubmit }) => {
   key={index}
   className={`cursor-pointer bg-transparent ${
     index <= (hover || rating) ? 'text-yellow-400' : 'text-gray-300'
-  } focus:outline-none focus:ring-0 active:outline-none hover:shadow-sm focus:shadow-sm`}
+  } focus:outline-none focus:ring-0 active:outline-none hover:shadow-sm focus:shadow-sm md:text-2xl p-2 text-center justify-center`}
   onClick={() => setRating(index)}
   onMouseEnter={() => setHover(index)}
   onMouseLeave={() => setHover(null)}
   aria-label={`Rate ${index} star${index > 1 ? 's' : ''}`}
 >
-  <FaStar size={24} />
+  <FaStar/>
 </button>
 
           );

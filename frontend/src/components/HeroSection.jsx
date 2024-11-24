@@ -81,7 +81,7 @@ const HeroSection = () => {
               {/* Search Input */}
               <input
                 type="text"
-                placeholder="Search for book, author, or tag..."
+                placeholder="book, author, or tag..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-yellow-100 rounded-md focus:outline-none focus:ring-1 focus:ring-yellow-100"

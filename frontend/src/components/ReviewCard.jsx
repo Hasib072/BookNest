@@ -51,19 +51,19 @@ const ReviewCard = ({ review }) => {
     return (
         <div className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row">
             {/* Book Cover */}
-            <div className="md:w-1/4 w-full">
+            <div className="rounded-lg p-6 flex flex-col md:flex-row items-center">
                 <img
                     src={bookCover}
                     alt={`${book.title} cover`}
-                    className="w-full h-48 object-cover"
+                    className="w-40 h-60 object-cover rounded-md mb-4 md:mb-0 md:mx-3 flex-shrink-0"
                     loading="lazy"
                 />
             </div>
 
             {/* Review Details */}
-            <div className="p-4 md:w-3/4 w-full flex flex-col justify-between">
+            <div className="px-4 md:py-6 md:w-3/4 w-full flex flex-col justify-between ">
                 <div className='text-left'>
-                    <h3 className="text-xl font-semibold text-gray-800">{book.title}</h3>
+                    <h3 className="text-xl font-lora font-semibold text-gray-800">{book.title}</h3>
                     <p className="text-gray-600 mb-2">by {bookAuthor}</p>
                     <div className="flex items-center mb-2">
                         {Array.from({ length: 5 }, (_, index) => (

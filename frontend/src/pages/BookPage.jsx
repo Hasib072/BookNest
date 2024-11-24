@@ -201,7 +201,7 @@ const BookPage = () => {
               </p>
 
               {/* Book Title */}
-              <h1 className="text-3xl font-bold mb-2">
+              <h1 className="text-3xl font-lora font-bold mb-2">
                 {book.title}
               </h1>
 
