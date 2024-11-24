@@ -45,17 +45,16 @@ const ExploreSection = () => {
     useEffect(() => {
         AOS.init({
             duration: 1000, // Animation duration in milliseconds
-            once: true, // Whether animation should happen only once while scrolling down
+            once: true,
         });
-        // Removed fetchBooks() to prevent double fetching
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
 
     // Debounced fetchBooks function to prevent excessive API calls
     const debouncedFetchBooks = useCallback(
         debounce(() => {
             fetchBooks();
-        }, 500), // Adjust the delay as needed (500ms in this example)
+        }, 500), 
         [searchQuery, genre]
     );
 
@@ -185,7 +184,7 @@ const ExploreSection = () => {
             <div className='flex flex-col items-center justify-center min-h-[500px]'>
                 {/* Search and Filter Bar */}
                 <form 
-                    className="mt-8 w-full max-w-[32rem] flex flex-col md:flex-row items-center" 
+                    className="px-8 py-2 mt-8 w-full max-w-[32rem] flex flex-col md:flex-row items-center" 
                     onSubmit={(e) => {
                         e.preventDefault();
                         fetchBooks(); // Immediate fetch on form submission

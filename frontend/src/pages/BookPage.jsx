@@ -229,7 +229,7 @@ const BookPage = () => {
         </div>
       </div>
 
-      <div className='mx-auto w-[70%]'>
+      <div className='mx-auto px-6 md:w-[70%]'>
 
         {/* Description Section */}
         <div className="container mx-auto px-4 py-8">
@@ -247,7 +247,7 @@ const BookPage = () => {
       </div>
 
       {/* Reviews Section */}
-      <div className="container mx-auto w-[70%] px-4 py-8">
+      <div className="container mx-auto md:w-[70%] px-8 py-8">
         {/* Reviews Title */}
         <h2 className="text-2xl font-semibold mb-4 text-left">
           Reviews
